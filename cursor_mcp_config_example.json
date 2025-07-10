@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mediaflows": {
+      "url": "https://mediaflows.mcp.cloudinary.com/v2/mcp",
+      "headers": {
+        "cld-cloud-name": "your-cloud-name-here",
+        "cld-api-key": "your-api-key-here",
+        "cld-secret": "your-api-secret-here"
+      }
+    }
+  }
+}

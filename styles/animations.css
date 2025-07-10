@@ -1,0 +1,160 @@
+/* File chứa tất cả animations và transitions cho toàn bộ ứng dụng */
+
+/* === HIỆU ỨNG FADE IN === */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* === HIỆU ỨNG SLIDE UP === */
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* === HIỆU ỨNG SLIDE IN FROM LEFT === */
+.slide-in-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* === HIỆU ỨNG SCALE IN === */
+.scale-in {
+  animation: scaleIn 0.4s ease-out;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* === HIỆU ỨNG STAGGER CHILDREN === */
+.stagger-container > * {
+  opacity: 1; /* Đã thay đổi từ 0 thành 1 để tránh trắng xóa */
+}
+
+.stagger-container > *:nth-child(1) { animation: fadeIn 0.5s ease-out; }
+.stagger-container > *:nth-child(2) { animation: fadeIn 0.5s ease-out 0.1s; }
+.stagger-container > *:nth-child(3) { animation: fadeIn 0.5s ease-out 0.2s; }
+.stagger-container > *:nth-child(4) { animation: fadeIn 0.5s ease-out 0.3s; }
+.stagger-container > *:nth-child(5) { animation: fadeIn 0.5s ease-out 0.4s; }
+.stagger-container > *:nth-child(6) { animation: fadeIn 0.5s ease-out 0.5s; }
+
+/* === HIỆU ỨNG PULSE === */
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* === HIỆU ỨNG PAGE TRANSITION === */
+.page-enter {
+  opacity: 1; /* Đổi từ 0 sang 1 */
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit {
+  opacity: 1;
+}
+
+.page-exit-active {
+  opacity: 1; /* Đổi từ 0 sang 1 */
+  transform: translateY(0); /* Đổi từ -10px sang 0 */
+}
+
+/* === HIỆU ỨNG CHỚp NHÁY === */
+.blink {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* === HIỆU ỨNG HOVER CHO BUTTONS === */
+.btn-hover-effect {
+  transition: all 0.3s ease;
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* === HIỆU ỨNG HOVER CHO CARDS === */
+.card-hover-effect {
+  transition: all 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* === HIỆU ỨNG RIPPLE === */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+
+.ripple:active:after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+/* === HIỆU ỨNG BACKGROUND GRADIENT ANIMATE === */
+.bg-gradient-animate {
+  background: linear-gradient(-45deg, #ff7676, #ff4545, #ff5e60, #ff7676);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === SMOOTH SCROLL BEHAVIOR === */
+html {
+  scroll-behavior: smooth;
+}

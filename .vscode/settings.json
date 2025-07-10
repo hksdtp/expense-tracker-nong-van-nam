@@ -1,0 +1,28 @@
+{
+  "cline.apiProvider": "openai",
+  "cline.openaiApiKey": "${env:OPENAI_API_KEY}",
+  "cline.model": "gpt-4",
+  "cline.maxTokens": 4000,
+  "cline.temperature": 0.1,
+  
+
+  "cline.customCommands": {
+    "forwardToAugment": {
+      "command": "node scripts/cline-augment-bridge.js create-task",
+      "description": "Forward current task to Augment",
+      "shortcut": "Cmd+Shift+A"
+    }
+  },
+
+  "cline.extensions": [
+    ".cline/extensions/augment-forwarder.js"
+  ],
+
+  "files.watcherExclude": {
+    "**/.cline-augment-tasks/**": true
+  },
+
+
+  "chat.mcp.enabled": true,
+  "chat.mcp.discovery.enabled": true
+}

@@ -1,0 +1,15 @@
+// Create a simple test image using Canvas API
+const fs = require('fs');
+
+// Create a simple SVG image
+const svgContent = `
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#ff0000"/>
+  <text x="150" y="100" font-family="Arial" font-size="20" fill="white" text-anchor="middle">Test Receipt</text>
+  <text x="150" y="130" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Amount: $100.00</text>
+  <text x="150" y="150" font-family="Arial" font-size="12" fill="white" text-anchor="middle">Date: 2025-07-04</text>
+</svg>
+`;
+
+fs.writeFileSync('test-receipt.svg', svgContent);
+console.log('Test SVG image created: test-receipt.svg');

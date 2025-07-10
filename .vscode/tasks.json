@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Cline-Augment Bridge",
+            "type": "shell",
+            "command": "node",
+            "args": ["scripts/cline-augment-bridge.js"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "Forward Task to Augment",
+            "type": "shell",
+            "command": "node",
+            "args": [
+                "scripts/cline-augment-bridge.js",
+                "create-task",
+                "${input:taskDescription}",
+                "${input:files}"
+            ],
+            "group": "build"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "taskDescription",
+            "description": "Task description",
+            "default": "Implement feature",
+            "type": "promptString"
+        },
+        {
+            "id": "files",
+            "description": "Files to include",
+            "default": "",
+            "type": "promptString"
+        }
+    ]
+}

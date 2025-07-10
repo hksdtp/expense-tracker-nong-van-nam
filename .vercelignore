@@ -1,0 +1,32 @@
+# Ignore pnpm files to force npm usage
+pnpm-lock.yaml
+.pnpm-store/
+.pnpm-debug.log
+
+# Development files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing files
+test-*.js
+test-*.ts
+*.test.js
+*.test.ts
+
+# Documentation
+docs/
+*.md
+README.md
+
+# Scripts
+scripts/
+fix-*.sh
+commit-*.sh
+*.sh
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store

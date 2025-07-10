@@ -1,0 +1,26 @@
+{
+  "servers": {
+    "cloudinaryMediaFlows": {
+      "type": "http",
+      "url": "https://mediaflows.mcp.cloudinary.com/v2/mcp",
+      "headers": {
+        "cld-cloud-name": "dgaktc3fb",
+        "cld-api-key": "837515191173781",
+        "cld-secret": "0b81AP4Qgb3LyNahdXCesAJd1LM"
+      }
+    },
+    "cloudinaryCommunity": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@felores/cloudinary-mcp-server@latest"
+      ],
+      "env": {
+        "CLOUDINARY_CLOUD_NAME": "dgaktc3fb",
+        "CLOUDINARY_API_KEY": "837515191173781",
+        "CLOUDINARY_API_SECRET": "0b81AP4Qgb3LyNahdXCesAJd1LM"
+      }
+    }
+  }
+}

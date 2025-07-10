@@ -1,0 +1,44 @@
+{
+  "name": "Cline-Augment Integration",
+  "description": "Configuration để forward Cline requests sang Augment",
+  "version": "1.0.0",
+  "settings": {
+    "augmentBridge": {
+      "enabled": true,
+      "bridgeScript": "./scripts/cline-augment-bridge.js",
+      "taskDirectory": "./.cline-augment-tasks",
+      "autoForward": true,
+      "forwardPatterns": [
+        "implement",
+        "create component",
+        "tạo component",
+        "fix bug",
+        "sửa lỗi",
+        "refactor",
+        "tái cấu trúc",
+        "optimize",
+        "tối ưu",
+        "thêm tính năng",
+        "add feature",
+        "build ui",
+        "xây dựng giao diện",
+        "design interface",
+        "thiết kế giao diện"
+      ]
+    },
+    "hooks": {
+      "beforeTask": "node ./scripts/cline-augment-bridge.js create-task",
+      "afterTask": "echo 'Task completed'"
+    }
+  },
+  "commands": {
+    "forward-to-augment": {
+      "description": "Forward current task to Augment",
+      "command": "node ./scripts/cline-augment-bridge.js create-task \"$1\" $2 $3 $4 $5"
+    },
+    "start-bridge": {
+      "description": "Start Cline-Augment bridge",
+      "command": "node ./scripts/cline-augment-bridge.js"
+    }
+  }
+}

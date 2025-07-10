@@ -1,0 +1,43 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "cloudinary-cloud-name",
+      "description": "Cloudinary Cloud Name",
+      "password": false
+    },
+    {
+      "type": "promptString", 
+      "id": "cloudinary-api-key",
+      "description": "Cloudinary API Key",
+      "password": false
+    },
+    {
+      "type": "promptString",
+      "id": "cloudinary-api-secret", 
+      "description": "Cloudinary API Secret",
+      "password": true
+    }
+  ],
+  "servers": {
+    "cloudinaryMediaFlows": {
+      "type": "http",
+      "url": "https://mediaflows.mcp.cloudinary.com/v2/mcp",
+      "headers": {
+        "cld-cloud-name": "${input:cloudinary-cloud-name}",
+        "cld-api-key": "${input:cloudinary-api-key}",
+        "cld-secret": "${input:cloudinary-api-secret}"
+      }
+    },
+    "cloudinaryCommunity": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@felores/cloudinary-mcp-server@latest"],
+      "env": {
+        "CLOUDINARY_CLOUD_NAME": "${input:cloudinary-cloud-name}",
+        "CLOUDINARY_API_KEY": "${input:cloudinary-api-key}",
+        "CLOUDINARY_API_SECRET": "${input:cloudinary-api-secret}"
+      }
+    }
+  }
+}

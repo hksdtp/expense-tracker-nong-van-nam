@@ -1,0 +1,5 @@
+This is a test receipt file for testing image upload functionality.
+Date: 2025-07-04
+Amount: $100.00
+Description: Test transaction
+Store: Test Store

@@ -1,0 +1,36 @@
+# Commands để fix Vercel deployment
+
+# 1. Remove pnpm lockfile (đã xóa rồi)
+# rm pnpm-lock.yaml
+
+# 2. Install with npm to create package-lock.json
+npm install
+
+# 3. Add changes to git
+git add .
+
+# 4. Commit the fix
+git commit -m "🔧 Fix: Vercel deployment - Switch from pnpm to npm
+
+✅ Fixes:
+- Removed pnpm-lock.yaml causing deployment failure
+- Updated vercel.json to use npm instead of pnpm
+- Fixed dependency mismatch between package.json and lockfile
+- Added package-lock.json for npm-based deployment
+
+🔧 Changes:
+- vercel.json: Changed installCommand from 'pnpm install' to 'npm install'
+- vercel.json: Changed buildCommand from 'pnpm run build' to 'npm run build'
+- Removed pnpm-lock.yaml
+- Added package-lock.json
+
+📊 Impact:
+- Vercel deployment should now work correctly
+- No more 'frozen-lockfile' errors
+- Dependencies properly synced"
+
+# 5. Push to GitHub
+git push origin main
+
+# 6. Check Vercel deployment
+echo "✅ Check Vercel dashboard for successful deployment"
