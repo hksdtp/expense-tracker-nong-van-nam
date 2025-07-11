@@ -325,7 +325,7 @@ export async function POST(request: NextRequest) {
     const SHEET_NAME = "Sheet1"
 
     // Chuẩn bị dữ liệu để thêm vào Google Sheets
-    // Cấu trúc: Ngày, Danh mục, Mô tả, Số tiền, Loại, Link hóa đơn, Thời gian, Danh mục phụ, Số lượng, Phương thức thanh toán, Ghi chú
+    // Cấu trúc: Ngày, Danh mục, Mô tả, Số tiền, Loại, Link hóa đơn, Thời gian, Danh mục phụ, Số lượng, Phương thức thanh toán, Ghi chú, URL ảnh
     const rowData = [
       date, // Ngày
       category, // Danh mục
@@ -337,7 +337,8 @@ export async function POST(request: NextRequest) {
       subCategory, // Danh mục phụ
       fuelLiters, // Số lượng (lít xăng)
       paymentMethod, // Phương thức thanh toán
-      note // Ghi chú
+      note, // Ghi chú
+      receiptLink // URL ảnh (same as receiptLink for now)
     ]
 
     console.log("Row data to append:", rowData)
@@ -345,7 +346,7 @@ export async function POST(request: NextRequest) {
     // Thêm dữ liệu vào Google Sheets
     const appendResult = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${SHEET_NAME}!A:K`,
+      range: `${SHEET_NAME}!A:L`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [rowData],

@@ -8,6 +8,7 @@ import { SubCategoryDropdown } from "./sub-category-dropdown"
 import { PaymentMethodDropdown } from "./payment-method-dropdown"
 import { CustomDatePicker } from "./custom-date-picker"
 import { MacOSReceiptUpload } from "./macos-receipt-upload"
+import { AmountInputWithSuggestions } from "./amount-input-with-suggestions"
 import { useToast } from "@/components/ui/use-toast"
 
 interface AddTransactionModalProps {
@@ -248,23 +249,13 @@ export function AddTransactionModal({ isOpen, onClose }: AddTransactionModalProp
               />
             </div>
 
-            {/* Amount Field */}
-            <div>
-              <label className="flex items-center text-sm font-medium text-gray-700 mb-1.5">
-                <DollarSign className="w-4 h-4 mr-2 text-gray-500" />
-                Số tiền <span className="text-red-500 ml-1">*</span>
-              </label>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="Nhập số tiền"
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
-                min="0"
-                step="1000"
-                required
-              />
-            </div>
+            {/* Amount Field with Suggestions */}
+            <AmountInputWithSuggestions
+              value={amount}
+              onChange={setAmount}
+              placeholder="Nhập số tiền"
+              required
+            />
 
             {/* Sub Category Field - chỉ hiện khi chọn "Chi phí xe ô tô" */}
             {category === "Chi phí xe ô tô" && (

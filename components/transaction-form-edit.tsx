@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { AmountInputWithSuggestions } from "./amount-input-with-suggestions"
 import { Loader2 } from "lucide-react"
 
 interface TransactionFormEditProps {
@@ -113,18 +114,13 @@ export function TransactionFormEdit({
         />
       </div>
 
-      {/* Amount */}
-      <div>
-        <Label htmlFor="amount">Số tiền</Label>
-        <Input
-          id="amount"
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="Nhập số tiền"
-          required
-        />
-      </div>
+      {/* Amount with Suggestions */}
+      <AmountInputWithSuggestions
+        value={amount}
+        onChange={setAmount}
+        placeholder="Nhập số tiền"
+        required
+      />
 
       {/* Payment Method */}
       <div>

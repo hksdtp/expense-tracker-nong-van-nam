@@ -12,7 +12,18 @@
     "cline:bridge": "node scripts/cline-augment-bridge.js",
     "cline:forward": "node scripts/cline-augment-bridge.js create-task",
     "cline:test": "node scripts/test-cline-augment.js",
-    "cline:setup": "chmod +x scripts/setup-cline-augment.sh && ./scripts/setup-cline-augment.sh"
+    "cline:setup": "chmod +x scripts/setup-cline-augment.sh && ./scripts/setup-cline-augment.sh",
+    "data:clear": "node scripts/clear-all-data.js",
+    "data:verify": "node scripts/verify-google-sheets-connection.js",
+    "data:check": "node scripts/check-sheets-data.js",
+    "data:final-check": "node scripts/final-verification.js",
+    "test:cloudinary": "node scripts/test-cloudinary.js",
+    "test:add-transaction": "node scripts/test-add-transaction.js",
+    "test:upload-image": "node scripts/test-upload-image.js",
+    "test:real-upload": "node scripts/test-real-upload.js",
+    "test:api-upload": "node scripts/test-api-upload.js",
+    "test:amount-suggestions": "node scripts/test-amount-suggestions.js",
+    "test:tag-suggestions": "node scripts/test-tag-suggestions.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
