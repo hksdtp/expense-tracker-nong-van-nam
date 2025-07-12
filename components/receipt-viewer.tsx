@@ -36,6 +36,34 @@ export function ReceiptViewer({ receiptLink, size = "md" }: ReceiptViewerProps) 
     setImageError(false)
   }
 
+  // Convert Google Drive URL to viewable format
+  const getViewableImageUrl = (url: string) => {
+    if (!url) return url
+
+    // If it's already a Google Drive thumbnail URL, use it
+    if (url.includes('drive.google.com/thumbnail')) {
+      return url
+    }
+
+    // If it's a Google Drive view URL, convert to thumbnail
+    if (url.includes('drive.google.com/file/d/')) {
+      const fileIdMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)
+      if (fileIdMatch) {
+        const fileId = fileIdMatch[1]
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`
+      }
+    }
+
+    // If it's a direct Google Drive ID, convert to thumbnail
+    if (url.match(/^[a-zA-Z0-9_-]{25,}$/)) {
+      return `https://drive.google.com/thumbnail?id=${url}&sz=w1000`
+    }
+
+    return url
+  }
+
+  const viewableImageUrl = getViewableImageUrl(receiptLink)
+
   return (
     <div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -110,7 +138,7 @@ export function ReceiptViewer({ receiptLink, size = "md" }: ReceiptViewerProps) 
               )}
 
               <img
-                src={receiptLink}
+                src={viewableImageUrl}
                 alt="Biên lai"
                 className={`max-w-full max-h-[70vh] object-contain ${imageLoading || imageError ? 'hidden' : ''}`}
                 onLoad={handleImageLoad}

@@ -26,7 +26,15 @@
     "test:tag-suggestions": "node scripts/test-tag-suggestions.js",
     "test:delete-transaction": "node scripts/test-delete-transaction.js",
     "test:real-delete": "node scripts/test-real-delete.js",
-    "test:clear-column-l": "node scripts/test-clear-column-l.js"
+    "test:clear-column-l": "node scripts/test-clear-column-l.js",
+    "analyze:sheets": "node scripts/analyze-sheets-structure.js",
+    "analyze:data": "node scripts/analyze-data-structure.js",
+    "analyze:sample": "node scripts/sample-data-analysis.js",
+    "migration:test": "node scripts/migration-test.js",
+    "verify:structure": "node scripts/verify-actual-structure.js",
+    "migration:corrected": "node scripts/corrected-migration-test.js",
+    "migration:production": "node scripts/production-migration.js",
+    "debug:cash": "node scripts/debug-cash-balance.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
