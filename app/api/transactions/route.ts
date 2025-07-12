@@ -423,18 +423,38 @@ export async function DELETE(request: Request) {
     // Delete row from Google Sheets by clearing the data
     console.log(`Clearing row ${rowIndex} from Google Sheets`)
 
+    let rowCleared = false
+
     try {
+      // Clear entire row to ensure all data including images are removed
       await sheets.spreadsheets.values.clear({
         spreadsheetId,
-        range: `Sheet1!A${rowIndex}:L${rowIndex}`, // Clear all columns for this row
+        range: `Sheet1!${rowIndex}:${rowIndex}`, // Clear entire row
       })
       console.log(`✅ Row ${rowIndex} cleared successfully`)
+      rowCleared = true
+
     } catch (sheetsError: any) {
       if (sheetsError.code === 404) {
         console.log(`⚠️ Row ${rowIndex} not found or already empty`)
         // Continue with deletion even if row doesn't exist
       } else {
         throw sheetsError // Re-throw other errors
+      }
+    }
+
+    // Always try to explicitly clear the image URL column to be absolutely sure
+    try {
+      await sheets.spreadsheets.values.clear({
+        spreadsheetId,
+        range: `Sheet1!L${rowIndex}`, // Explicitly clear image URL column
+      })
+      console.log(`✅ Image URL column L${rowIndex} cleared explicitly`)
+    } catch (imageColumnError: any) {
+      if (imageColumnError.code === 404) {
+        console.log(`⚠️ Column L${rowIndex} not found or already empty`)
+      } else {
+        console.log(`⚠️ Could not clear image URL column: ${imageColumnError.message}`)
       }
     }
 

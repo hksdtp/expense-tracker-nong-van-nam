@@ -24,7 +24,9 @@
     "test:api-upload": "node scripts/test-api-upload.js",
     "test:amount-suggestions": "node scripts/test-amount-suggestions.js",
     "test:tag-suggestions": "node scripts/test-tag-suggestions.js",
-    "test:delete-transaction": "node scripts/test-delete-transaction.js"
+    "test:delete-transaction": "node scripts/test-delete-transaction.js",
+    "test:real-delete": "node scripts/test-real-delete.js",
+    "test:clear-column-l": "node scripts/test-clear-column-l.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
