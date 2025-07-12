@@ -1043,21 +1043,21 @@ export function TransactionTabsFixed({
               </div>
             </div>
           )}
-          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-2 pt-2">
-            <Button
-              variant="outline"
-              onClick={() => setDeleteConfirmOpen(false)}
-              className="w-full sm:w-auto min-h-[44px] text-base"
-            >
-              Hủy
-            </Button>
+          <DialogFooter className="flex flex-col gap-3 pt-4" data-dialog-footer>
             <Button
               variant="destructive"
               onClick={confirmDelete}
-              className="w-full sm:w-auto min-h-[44px] text-base gap-2"
+              className="w-full min-h-[48px] text-base gap-2 order-1"
             >
               <Trash2 className="h-4 w-4" />
               Xóa giao dịch
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setDeleteConfirmOpen(false)}
+              className="w-full min-h-[48px] text-base order-2"
+            >
+              Hủy
             </Button>
           </DialogFooter>
         </DialogContent>
