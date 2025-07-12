@@ -1029,25 +1029,30 @@ export function TransactionTabsFixed({
             </DialogDescription>
           </DialogHeader>
           {transactionToDelete && (
-            <div className="bg-gray-50 p-4 rounded-lg my-4 border border-gray-100">
-              <div className="font-medium text-gray-900 mb-2 break-words">
-                {transactionToDelete.description || "Không có mô tả"}
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
-                <div className="text-sm text-gray-500">
-                  {formatDate(transactionToDelete.date)}
+            <div className="bg-gray-50 p-4 rounded-xl my-6 border border-gray-100">
+              <div className="flex justify-between items-start mb-4">
+                <div className="space-y-1">
+                  <p className="font-semibold text-gray-900 text-lg">{transactionToDelete.category || "Không có danh mục"}</p>
+                  <p className="text-sm text-gray-500">{formatDate(transactionToDelete.date)}</p>
                 </div>
-                <div className="font-semibold text-red-600 text-lg">
+                <p className="text-xl font-bold text-red-600">
                   {formatCurrency(transactionToDelete.amount)}
-                </div>
+                </p>
               </div>
+              {transactionToDelete.description && (
+                <div className="border-t pt-3 mt-3">
+                  <p className="text-sm text-gray-600 break-words">
+                    {transactionToDelete.description}
+                  </p>
+                </div>
+              )}
             </div>
           )}
-          <DialogFooter className="flex flex-col gap-3 pt-4" data-dialog-footer>
+          <DialogFooter className="flex flex-row gap-3 pt-6" data-dialog-footer>
             <Button
               variant="destructive"
               onClick={confirmDelete}
-              className="w-full min-h-[48px] text-base gap-2 order-1"
+              className="flex-1 min-h-[48px] text-base gap-2 font-medium"
             >
               <Trash2 className="h-4 w-4" />
               Xóa giao dịch
@@ -1055,7 +1060,7 @@ export function TransactionTabsFixed({
             <Button
               variant="outline"
               onClick={() => setDeleteConfirmOpen(false)}
-              className="w-full min-h-[48px] text-base order-2"
+              className="flex-1 min-h-[48px] text-base font-medium"
             >
               Hủy
             </Button>

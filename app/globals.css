@@ -595,15 +595,17 @@ html body div[data-radix-dialog-overlay][data-state="open"] {
     font-size: 16px !important; /* Prevent zoom on iOS */
   }
 
-  /* Force vertical layout for dialog footer on mobile */
+  /* Horizontal layout for dialog footer buttons like in design */
   [data-radix-dialog-content] [data-dialog-footer] {
-    flex-direction: column !important;
+    flex-direction: row !important;
     gap: 12px !important;
+    align-items: stretch !important;
   }
 
   [data-radix-dialog-content] [data-dialog-footer] button {
-    width: 100% !important;
+    flex: 1 !important;
     min-height: 48px !important;
+    font-weight: 500 !important;
   }
 }
 
@@ -647,19 +649,21 @@ html body div[data-radix-dialog-overlay][data-state="open"] {
     font-size: 16px; /* Ngăn zoom trên iOS */
   }
 
-  /* Force mobile delete dialog buttons to stack vertically */
+  /* Horizontal layout for mobile delete dialog buttons like design */
   [data-radix-dialog-content] [data-dialog-footer] {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     gap: 12px !important;
     width: 100% !important;
+    align-items: stretch !important;
   }
 
   [data-radix-dialog-content] [data-dialog-footer] button {
-    width: 100% !important;
+    flex: 1 !important;
     min-height: 48px !important;
     font-size: 16px !important;
     padding: 12px 16px !important;
+    font-weight: 500 !important;
   }
 
   /* Specific targeting for delete confirmation dialog */
@@ -1333,31 +1337,31 @@ textarea.transaction-form-input {
 
 /* Additional mobile-specific overrides for delete dialog */
 @media (max-width: 640px) {
-  /* Target delete confirmation dialog specifically */
+  /* Target delete confirmation dialog specifically - horizontal layout */
   [data-radix-dialog-content]:has([data-dialog-footer]) [data-dialog-footer] {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     align-items: stretch !important;
     gap: 12px !important;
-    margin-top: 16px !important;
+    margin-top: 24px !important;
   }
 
   [data-radix-dialog-content]:has([data-dialog-footer]) [data-dialog-footer] > * {
-    width: 100% !important;
-    flex: none !important;
+    flex: 1 !important;
+    min-height: 48px !important;
   }
 
-  /* Override any existing flex-row classes */
+  /* Ensure horizontal layout is maintained */
   [data-radix-dialog-content] .flex-row {
-    flex-direction: column !important;
+    flex-direction: row !important;
   }
 
   [data-radix-dialog-content] .sm\\:flex-row {
-    flex-direction: column !important;
+    flex-direction: row !important;
   }
 
   [data-radix-dialog-content] .sm\\:justify-between {
-    justify-content: stretch !important;
+    justify-content: space-between !important;
   }
 }
 
