@@ -34,7 +34,9 @@
     "verify:structure": "node scripts/verify-actual-structure.js",
     "migration:corrected": "node scripts/corrected-migration-test.js",
     "migration:production": "node scripts/production-migration.js",
-    "debug:cash": "node scripts/debug-cash-balance.js"
+    "debug:cash": "node scripts/debug-cash-balance.js",
+    "analyze:cash": "node scripts/analyze-cash-transactions.js",
+    "check:raw": "node scripts/check-raw-data.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
