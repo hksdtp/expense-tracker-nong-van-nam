@@ -11,7 +11,8 @@ cloudinary.config({
 export async function POST(request: NextRequest) {
   try {
     console.log('=== CLOUDINARY UPLOAD API ===')
-    
+    console.log('Request headers:', Object.fromEntries(request.headers.entries()))
+
     // Check if Cloudinary is configured
     if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
       console.error('Missing Cloudinary configuration')
@@ -21,13 +22,33 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const formData = await request.formData()
+    let formData
+    try {
+      formData = await request.formData()
+      console.log('FormData keys:', Array.from(formData.keys()))
+    } catch (formError) {
+      console.error('Error parsing FormData:', formError)
+      return NextResponse.json(
+        { error: 'Invalid form data' },
+        { status: 400 }
+      )
+    }
+
     const file = formData.get('file') as File
 
     if (!file) {
-      console.error('No file provided')
+      console.error('No file provided in FormData')
+      console.log('Available FormData entries:', Array.from(formData.entries()))
       return NextResponse.json(
         { error: 'No file provided' },
+        { status: 400 }
+      )
+    }
+
+    if (!(file instanceof File)) {
+      console.error('Invalid file object:', typeof file)
+      return NextResponse.json(
+        { error: 'Invalid file object' },
         { status: 400 }
       )
     }

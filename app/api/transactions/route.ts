@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server"
 import { initGoogleAPIs, getSpreadsheetId } from "@/lib/google-service"
 import { revalidatePath } from "next/cache"
+import { v2 as cloudinary } from 'cloudinary'
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 // Đảm bảo API route này chạy trong Node.js runtime
 export const runtime = "nodejs"
@@ -386,6 +394,94 @@ export async function POST(request: NextRequest) {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
         details: error instanceof Error ? error.stack : String(error),
+      },
+      { status: 500 }
+    )
+  }
+}
+
+// DELETE method to delete a transaction
+export async function DELETE(request: Request) {
+  try {
+    console.log('API: Deleting transaction')
+
+    const url = new URL(request.url)
+    const rowIndex = url.searchParams.get('rowIndex')
+    const imageUrl = url.searchParams.get('imageUrl')
+
+    if (!rowIndex) {
+      return NextResponse.json(
+        { error: 'Row index is required' },
+        { status: 400 }
+      )
+    }
+
+    // Initialize Google APIs
+    const { sheets } = await initGoogleAPIs()
+    const spreadsheetId = getSpreadsheetId()
+
+    // Delete row from Google Sheets by clearing the data
+    console.log(`Clearing row ${rowIndex} from Google Sheets`)
+
+    try {
+      await sheets.spreadsheets.values.clear({
+        spreadsheetId,
+        range: `Sheet1!A${rowIndex}:L${rowIndex}`, // Clear all columns for this row
+      })
+      console.log(`✅ Row ${rowIndex} cleared successfully`)
+    } catch (sheetsError: any) {
+      if (sheetsError.code === 404) {
+        console.log(`⚠️ Row ${rowIndex} not found or already empty`)
+        // Continue with deletion even if row doesn't exist
+      } else {
+        throw sheetsError // Re-throw other errors
+      }
+    }
+
+    // Delete image from Cloudinary if exists
+    if (imageUrl && imageUrl.includes('cloudinary.com')) {
+      try {
+        console.log('Deleting image from Cloudinary:', imageUrl)
+
+        // Extract public_id from Cloudinary URL
+        const urlParts = imageUrl.split('/')
+        const publicIdWithExtension = urlParts[urlParts.length - 1]
+        const publicId = publicIdWithExtension.split('.')[0]
+        const folder = process.env.CLOUDINARY_FOLDER || 'nongvannam'
+        const fullPublicId = `${folder}/${publicId}`
+
+        console.log('Extracted public_id:', fullPublicId)
+
+        const deleteResult = await cloudinary.uploader.destroy(fullPublicId)
+        console.log('Cloudinary delete result:', deleteResult)
+
+        if (deleteResult.result === 'ok') {
+          console.log('✅ Image deleted from Cloudinary successfully')
+        } else {
+          console.log('⚠️ Image may not exist in Cloudinary:', deleteResult.result)
+        }
+      } catch (cloudinaryError) {
+        console.error('❌ Error deleting image from Cloudinary:', cloudinaryError)
+        // Continue with transaction deletion even if image deletion fails
+      }
+    }
+
+    // Clear cache
+    clearTransactionsCache()
+
+    console.log('✅ Transaction deleted successfully')
+
+    return NextResponse.json({
+      success: true,
+      message: 'Transaction deleted successfully'
+    })
+
+  } catch (error) {
+    console.error('❌ Error deleting transaction:', error)
+    return NextResponse.json(
+      {
+        error: 'Failed to delete transaction',
+        details: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
     )

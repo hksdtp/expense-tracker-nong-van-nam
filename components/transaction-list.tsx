@@ -120,15 +120,26 @@ export function TransactionList({
     setIsDeletingId(transaction.id)
 
     try {
-      const formData = new FormData()
-      formData.append("rowIndex", transaction.rowIndex.toString())
+      // Use new API endpoint that handles both Google Sheets and Cloudinary
+      const params = new URLSearchParams({
+        rowIndex: transaction.rowIndex.toString()
+      })
 
-      const result = await deleteTransaction(formData)
+      // Add image URL if exists
+      if (transaction.receiptLink) {
+        params.append('imageUrl', transaction.receiptLink)
+      }
 
-      if (result.success) {
+      const response = await fetch(`/api/transactions?${params.toString()}`, {
+        method: 'DELETE',
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
         toast({
           title: "Xóa giao dịch thành công",
-          description: "Giao dịch đã được xóa khỏi hệ thống",
+          description: "Giao dịch và ảnh đã được xóa khỏi hệ thống",
         })
 
         // Refresh data
