@@ -1,5 +1,11 @@
-// Hàm chuyển đổi số thành chữ tiếng Việt
-export function amountToWords(amount: number): string {
+#!/usr/bin/env node
+
+/**
+ * Script test function chuyển số thành chữ
+ */
+
+// Hàm chuyển đổi số thành chữ tiếng Việt (copy từ lib)
+function amountToWords(amount) {
   if (amount === 0) return "không đồng"
   if (amount < 0) return "âm " + amountToWords(-amount)
 
@@ -7,7 +13,7 @@ export function amountToWords(amount: number): string {
   const positions = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"]
 
   // Hàm đọc số có 3 chữ số
-  const readThreeDigits = (num: number): string => {
+  const readThreeDigits = (num) => {
     const hundred = Math.floor(num / 100)
     const ten = Math.floor((num % 100) / 10)
     const unit = num % 10
@@ -51,7 +57,7 @@ export function amountToWords(amount: number): string {
 
   for (let i = amountStr.length; i > 0; i -= 3) {
     const start = Math.max(0, i - 3)
-    groups.unshift(Number.parseInt(amountStr.substring(start, i)))
+    groups.unshift(parseInt(amountStr.substring(start, i)))
   }
 
   // Đọc từng nhóm và thêm đơn vị vị trí
@@ -70,29 +76,57 @@ export function amountToWords(amount: number): string {
   return finalResult.charAt(0).toUpperCase() + finalResult.slice(1) + " đồng"
 }
 
-// Hàm tạo các gợi ý số tiền dựa trên input
-export function generateAmountSuggestions(input: string): number[] {
-  if (!input || input === "0") return []
+function testNumberToWords() {
+  console.log('🧪 Test chuyển số thành chữ tiếng Việt...')
+  console.log('=' .repeat(50))
 
-  const num = Number.parseInt(input)
-  if (isNaN(num)) return []
+  const testCases = [
+    1000,
+    10000,
+    100000,
+    1000000,
+    12000,
+    120000,
+    1200000,
+    123000,
+    1230000,
+    1500000,
+    5000000,
+    15000000,
+    50000000,
+    100000000
+  ]
 
-  const suggestions = []
+  testCases.forEach(amount => {
+    try {
+      const words = amountToWords(amount)
+      const formatted = new Intl.NumberFormat("vi-VN").format(amount)
+      console.log(`\n💰 ${formatted} ₫`)
+      console.log(`   📝 ${words}`)
+    } catch (error) {
+      console.log(`\n❌ Lỗi với số ${amount}: ${error.message}`)
+    }
+  })
 
-  // Thêm các gợi ý phổ biến
-  suggestions.push(num * 1000)
-  suggestions.push(num * 10000)
-  suggestions.push(num * 100000)
+  console.log('\n🎯 Test cases đặc biệt:')
+  
+  const specialCases = [0, -1000, 1, 5, 15, 25, 50, 99, 101, 999]
+  specialCases.forEach(amount => {
+    try {
+      const words = amountToWords(amount)
+      const formatted = new Intl.NumberFormat("vi-VN").format(amount)
+      console.log(`\n💰 ${formatted} ₫ → ${words}`)
+    } catch (error) {
+      console.log(`\n❌ Lỗi với số ${amount}: ${error.message}`)
+    }
+  })
 
-  // Nếu số nhỏ, thêm các gợi ý lớn hơn
-  if (num < 100) {
-    suggestions.push(num * 1000000)
-  }
-
-  return suggestions
+  console.log('\n✅ Test hoàn thành!')
 }
 
-// Hàm định dạng số tiền
-export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("vi-VN").format(amount)
+// Chạy script nếu được gọi trực tiếp
+if (require.main === module) {
+  testNumberToWords()
 }
+
+module.exports = { testNumberToWords }

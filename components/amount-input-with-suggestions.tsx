@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { DollarSign } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { amountToWords } from "@/lib/number-to-words"
 
 interface AmountInputWithSuggestionsProps {
   value: string
@@ -20,6 +21,7 @@ export function AmountInputWithSuggestions({
   required = false
 }: AmountInputWithSuggestionsProps) {
   const [suggestions, setSuggestions] = useState<number[]>([])
+  const [displayValue, setDisplayValue] = useState<string>(value)
   const inputRef = useRef<HTMLInputElement>(null)
 
   // Hàm tạo gợi ý số tiền dựa trên input
@@ -61,21 +63,44 @@ export function AmountInputWithSuggestions({
     return new Intl.NumberFormat("vi-VN").format(amount)
   }
 
+  // Hàm format số với dấu phân cách
+  const formatNumberWithCommas = (num: string): string => {
+    // Chỉ giữ lại số
+    const cleanNum = num.replace(/[^\d]/g, '')
+    if (!cleanNum) return ''
+
+    // Thêm dấu phân cách
+    return new Intl.NumberFormat("vi-VN").format(Number(cleanNum))
+  }
+
   // Xử lý thay đổi input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
-    onChange(inputValue)
+    const cleanValue = inputValue.replace(/[^\d]/g, '') // Chỉ giữ số
+
+    // Cập nhật giá trị thực (không có dấu phân cách)
+    onChange(cleanValue)
+
+    // Cập nhật giá trị hiển thị (có dấu phân cách)
+    setDisplayValue(formatNumberWithCommas(cleanValue))
 
     // Tạo gợi ý
-    const newSuggestions = generateAmountSuggestions(inputValue)
+    const newSuggestions = generateAmountSuggestions(cleanValue)
     setSuggestions(newSuggestions)
   }
 
   // Xử lý chọn gợi ý
   const handleSuggestionClick = (amount: number) => {
-    onChange(amount.toString())
+    const amountStr = amount.toString()
+    onChange(amountStr)
+    setDisplayValue(formatNumberWithCommas(amountStr))
     inputRef.current?.focus()
   }
+
+  // Cập nhật displayValue khi value thay đổi từ bên ngoài
+  useEffect(() => {
+    setDisplayValue(formatNumberWithCommas(value))
+  }, [value])
 
   return (
     <div className="space-y-3">
@@ -87,41 +112,51 @@ export function AmountInputWithSuggestions({
 
         <input
           ref={inputRef}
-          type="number"
-          value={value}
+          type="text"
+          value={displayValue}
           onChange={handleInputChange}
           placeholder={placeholder}
           className={cn(
-            "w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200",
+            "w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 text-lg font-medium",
             className
           )}
-          min="0"
-          step="1000"
           required={required}
+          inputMode="numeric"
+          pattern="[0-9,]*"
         />
 
-        {/* Hiển thị số tiền đã format */}
+        {/* Hiển thị số tiền bằng chữ */}
         {value && !isNaN(Number(value)) && Number(value) > 0 && (
-          <div className="mt-1 text-xs text-gray-500">
-            {formatCurrency(Number(value))} ₫
+          <div className="mt-2 p-2 bg-blue-50 rounded-lg border border-blue-100">
+            <div className="text-sm font-medium text-blue-800">
+              {formatCurrency(Number(value))} ₫
+            </div>
+            <div className="text-xs text-blue-600 mt-1 capitalize">
+              {amountToWords(Number(value))}
+            </div>
           </div>
         )}
       </div>
 
       {/* Suggestions Tags */}
       {suggestions.length > 0 && (
-        <div className="space-y-2">
-          <div className="text-xs text-gray-500 font-medium">Gợi ý số tiền:</div>
+        <div className="space-y-3">
+          <div className="text-sm text-gray-600 font-medium">💡 Gợi ý số tiền:</div>
           <div className="flex flex-wrap gap-2">
             {suggestions.map((amount, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => handleSuggestionClick(amount)}
-                className="inline-flex items-center px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 hover:text-blue-800 text-sm font-medium rounded-full border border-blue-200 hover:border-blue-300 transition-all duration-200 hover:scale-105 active:scale-95"
+                className="group inline-flex flex-col items-center px-4 py-3 bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-blue-700 hover:text-blue-800 text-sm font-medium rounded-xl border border-blue-200 hover:border-blue-300 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm hover:shadow-md"
               >
-                <span>{formatCurrency(amount)} ₫</span>
-                <span className="ml-1.5 text-xs opacity-75">
+                <span className="font-semibold text-base">
+                  {formatCurrency(amount)} ₫
+                </span>
+                <span className="text-xs opacity-75 mt-1 group-hover:opacity-90">
+                  {amountToWords(amount)}
+                </span>
+                <span className="text-xs opacity-60 mt-0.5">
                   ({amount >= 1000000
                     ? `${(amount / 1000000).toFixed(amount % 1000000 === 0 ? 0 : 1)}M`
                     : amount >= 1000

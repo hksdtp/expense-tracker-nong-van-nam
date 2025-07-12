@@ -1018,36 +1018,43 @@ export function TransactionTabsFixed({
 
       {/* Dialog xác nhận xóa giao dịch */}
       <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center text-red-600">
-              <AlertTriangle className="mr-2 h-5 w-5" />
+        <DialogContent className="sm:max-w-md w-[calc(100vw-32px)] max-w-[calc(100vw-32px)] mx-4">
+          <DialogHeader className="space-y-3">
+            <DialogTitle className="flex items-center text-red-600 text-lg">
+              <AlertTriangle className="mr-2 h-5 w-5 flex-shrink-0" />
               Xác nhận xóa giao dịch
             </DialogTitle>
-            <DialogDescription className="pt-3">
+            <DialogDescription className="text-gray-600 leading-relaxed">
               Bạn có chắc chắn muốn xóa giao dịch này không? Hành động này không thể hoàn tác.
             </DialogDescription>
           </DialogHeader>
           {transactionToDelete && (
-            <div className="bg-gray-50 p-3 rounded-lg my-3">
-              <div className="font-medium">{transactionToDelete.description}</div>
-              <div className="flex justify-between mt-1">
-                <div className="text-sm text-gray-500">{formatDate(transactionToDelete.date)}</div>
-                <div className="font-medium text-red-600">{formatCurrency(transactionToDelete.amount)}</div>
+            <div className="bg-gray-50 p-4 rounded-lg my-4 border border-gray-100">
+              <div className="font-medium text-gray-900 mb-2 break-words">
+                {transactionToDelete.description || "Không có mô tả"}
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
+                <div className="text-sm text-gray-500">
+                  {formatDate(transactionToDelete.date)}
+                </div>
+                <div className="font-semibold text-red-600 text-lg">
+                  {formatCurrency(transactionToDelete.amount)}
+                </div>
               </div>
             </div>
           )}
-          <DialogFooter className="sm:justify-between">
+          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-2 pt-2">
             <Button
               variant="outline"
               onClick={() => setDeleteConfirmOpen(false)}
+              className="w-full sm:w-auto min-h-[44px] text-base"
             >
               Hủy
             </Button>
             <Button
               variant="destructive"
               onClick={confirmDelete}
-              className="gap-1"
+              className="w-full sm:w-auto min-h-[44px] text-base gap-2"
             >
               <Trash2 className="h-4 w-4" />
               Xóa giao dịch

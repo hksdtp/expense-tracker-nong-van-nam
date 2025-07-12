@@ -36,7 +36,8 @@
     "migration:production": "node scripts/production-migration.js",
     "debug:cash": "node scripts/debug-cash-balance.js",
     "analyze:cash": "node scripts/analyze-cash-transactions.js",
-    "check:raw": "node scripts/check-raw-data.js"
+    "check:raw": "node scripts/check-raw-data.js",
+    "test:words": "node scripts/test-number-to-words.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
