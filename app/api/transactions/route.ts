@@ -352,10 +352,12 @@ export async function POST(request: NextRequest) {
     console.log("Row data to append:", rowData)
 
     // Thêm dữ liệu vào Google Sheets
+    // Sử dụng insertDataOption để đảm bảo dữ liệu được chèn vào hàng mới
     const appendResult = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
       range: `${SHEET_NAME}!A:L`,
       valueInputOption: "USER_ENTERED",
+      insertDataOption: "INSERT_ROWS", // Đảm bảo chèn hàng mới thay vì ghi đè
       resource: {
         values: [rowData],
       },

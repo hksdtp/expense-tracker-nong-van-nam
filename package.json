@@ -37,7 +37,11 @@
     "debug:cash": "node scripts/debug-cash-balance.js",
     "analyze:cash": "node scripts/analyze-cash-transactions.js",
     "check:raw": "node scripts/check-raw-data.js",
-    "test:words": "node scripts/test-number-to-words.js"
+    "test:words": "node scripts/test-number-to-words.js",
+    "fix:header": "node scripts/fix-sheets-header.js",
+    "test:column-fix": "node scripts/test-transaction-column-fix.js",
+    "fix:comprehensive": "node scripts/comprehensive-column-fix.js",
+    "test:final-column": "node scripts/final-column-test.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

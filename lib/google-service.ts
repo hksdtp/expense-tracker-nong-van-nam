@@ -140,10 +140,10 @@ export async function ensureSpreadsheetSetup() {
       console.log("Thêm tiêu đề cho sheet")
       await sheets.spreadsheets.values.update({
         spreadsheetId: SPREADSHEET_ID,
-        range: `${SHEET_NAME}!A1:H1`,
+        range: `${SHEET_NAME}!A1:L1`,
         valueInputOption: "RAW",
         requestBody: {
-          values: [["Date", "Category", "Description", "Amount", "Type", "ReceiptLink", "Timestamp", "SubCategory"]],
+          values: [["Ngày", "Danh mục", "Mô tả", "Số tiền", "Loại", "Link hóa đơn", "Thời gian", "Danh mục phụ", "Số lượng", "Phương thức thanh toán", "Ghi chú", "URL ảnh"]],
         },
       })
 
