@@ -114,3 +114,66 @@ export async function GET() {
     )
   }
 }
+
+export async function POST(request: Request) {
+  console.log("POST /api/setup - Sửa header và setup sheets...")
+
+  try {
+    const body = await request.json()
+    const { action } = body
+
+    if (action === 'fix-header') {
+      console.log("Thực hiện sửa header...")
+
+      // Khởi tạo Google APIs
+      const { sheets } = await initGoogleAPIs()
+      const SPREADSHEET_ID = getSpreadsheetId()
+      const SHEET_NAME = process.env.GOOGLE_SHEET_NAME || 'Transactions'
+
+      // Sửa header row
+      console.log("Cập nhật header row...")
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: SPREADSHEET_ID,
+        range: `${SHEET_NAME}!A1:L1`,
+        valueInputOption: "RAW",
+        requestBody: {
+          values: [["Ngày", "Danh mục", "Mô tả", "Số tiền", "Loại", "Link hóa đơn", "Thời gian", "Danh mục phụ", "Số lượng", "Phương thức thanh toán", "Ghi chú", "URL ảnh"]],
+        },
+      })
+
+      console.log("Header đã được cập nhật thành công!")
+
+      return NextResponse.json({
+        success: true,
+        message: "Header đã được sửa thành công",
+        action: "fix-header"
+      })
+    }
+
+    // Nếu không có action cụ thể, chạy setup mặc định
+    console.log("Chạy setup mặc định...")
+    await ensureSpreadsheetSetup()
+    await ensureDriveFolderSetup()
+
+    return NextResponse.json({
+      success: true,
+      message: "Setup hoàn thành",
+      spreadsheetId: getSpreadsheetId(),
+      folderId: getDriveFolderId(),
+    })
+
+  } catch (error) {
+    console.error("Lỗi POST setup:", error)
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message || "Lỗi không xác định",
+        details: {
+          stack: error.stack,
+        },
+      },
+      { status: 500 },
+    )
+  }
+}

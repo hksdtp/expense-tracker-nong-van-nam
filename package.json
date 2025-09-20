@@ -41,7 +41,11 @@
     "fix:header": "node scripts/fix-sheets-header.js",
     "test:column-fix": "node scripts/test-transaction-column-fix.js",
     "fix:comprehensive": "node scripts/comprehensive-column-fix.js",
-    "test:final-column": "node scripts/final-column-test.js"
+    "test:final-column": "node scripts/final-column-test.js",
+    "test:production": "node scripts/test-production-deployment.js",
+    "debug:sheets": "node scripts/debug-sheets-structure.js",
+    "test:column-issue": "node scripts/test-production-column-issue.js",
+    "fix:production-header": "node scripts/fix-production-header.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
